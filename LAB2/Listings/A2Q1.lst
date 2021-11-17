@@ -1,0 +1,45 @@
+A51 MACRO ASSEMBLER  A2Q1                                                                 02/01/2021 15:50:22 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\A2Q1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A2Q1.asm SET(SMALL) DEBUG PRINT(.\Listings\A2Q1.lst) OBJECT(.\Objects\A
+                      2Q1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H  
+0000 7910              2     MOV R1,#10H
+0002 755012            3     MOV 50H, #012H
+0005 E550              4     MOV A, 50H
+0007 75F00A            5     MOV B, #0AH        
+000A 84                6     DIV AB           
+000B AFF0              7     MOV R7, B  
+000D FB                8     MOV R3, A
+000E 75F00A            9     MOV B, #0AH
+0011 84               10     DIV AB
+0012 AEF0             11     MOV R6, B         
+0014 FD               12     MOV R5, A;   
+0015 EF               13     MOV A, R7
+0016 2E               14     LOOP: ADD A, R6
+0017 D9FD             15     checkpoint: DJNZ R1, LOOP
+0019 F553             16     MOV 53H, A
+001B 8D52             17     MOV 52H, R5
+                      18     END
+A51 MACRO ASSEMBLER  A2Q1                                                                 02/01/2021 15:50:22 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+CHECKPOINT . . . .  C ADDR   0017H   A   
+LOOP . . . . . . .  C ADDR   0016H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

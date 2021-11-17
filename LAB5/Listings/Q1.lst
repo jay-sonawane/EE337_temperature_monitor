@@ -1,0 +1,77 @@
+A51 MACRO ASSEMBLER  Q1                                                                   03/07/2021 20:28:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Q1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q1.asm SET(SMALL) DEBUG PRINT(.\Listings\Q1.lst) OBJECT(.\Objects\Q1.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 020100            2     LJMP MAIN
+0100                   3     ORG 100H
+0100                   4     MAIN:
+0100                   5     blinkingLEDs:
+0100 75900F            6     MOV P1, #0FH
+0103 E590              7     MOV A, P1
+0105 24F0              8     ADD A, #0F0H 
+0107 F590              9     MOV P1, A
+                      10     
+0109 E590             11     MOV A,P1
+010B 540F             12     ANL A,#0FH
+010D FC               13     MOV R4, A
+                      14     
+010E                  15     LOOPblink:
+010E 75900F           16     MOV P1, #0FH
+0111 311D             17     ACALL LOOP1S
+0113 7590FF           18     MOV P1, #0FFH
+0116 311D             19     ACALL LOOP1S
+0118 DCF4             20     DJNZ R4, LOOPblink
+                      21     
+011A 020100           22     LJMP blinkingLEDs
+                      23     
+011D                  24     LOOP1S:
+011D 7E28             25     MOV R6,#28H
+011F 3126             26     LOOP: ACALL DELAY
+0121 DEFC             27           DJNZ R6,LOOP
+0123 020139           28           LJMP final
+0126 758901           29     DELAY: MOV TMOD,#001B 
+0129 758C3C           30            MOV TH0,#03CH
+012C 758AB0           31            MOV TL0,#0B0H 
+012F D28C             32            SETB TR0 
+0131 308DFD           33     HERE: JNB TF0,HERE 
+0134 C28C             34           CLR TR0 
+0136 C28D             35           CLR TF0 
+0138 22               36           RET  
+0139 22               37           final: RET
+                      38               
+                      39     end
+A51 MACRO ASSEMBLER  Q1                                                                   03/07/2021 20:28:27 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BLINKINGLEDS . . .  C ADDR   0100H   A   
+DELAY. . . . . . .  C ADDR   0126H   A   
+FINAL. . . . . . .  C ADDR   0139H   A   
+HERE . . . . . . .  C ADDR   0131H   A   
+LOOP . . . . . . .  C ADDR   011FH   A   
+LOOP1S . . . . . .  C ADDR   011DH   A   
+LOOPBLINK. . . . .  C ADDR   010EH   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,104 @@
+ORG 000H
+LJMP MAIN
+;ORG 001BH
+;ljmp Handler
+;ORG 0050H
+;Handler: CLR TR1
+;INC R2
+;       MOV TH1,#03CH
+;       MOV TL1,#0B0H 
+;SetB EA ; (or SetB IE.7) to enable interrupts
+;SetB ET1 ; (or SetB IE.1) to enable interrupts from T0
+;SETB TR1
+;RETI
+
+ORG 100H
+MAIN:
+MOV R1, #28H
+SETB P1.4
+
+ONTIME: 
+ACALL LOOPRE1
+ACALL LOOPRE1
+DJNZ R1, ONTIME
+
+MOV R1, #28H
+CLR P1.4
+
+OFFTIME: 
+ACALL LOOPGA1
+ACALL LOOPGA1
+DJNZ R1, OFFTIME
+
+LJMP MAIN
+
+
+LOOPRE:
+MOV R6,#1H
+LOOP: ACALL DELAY
+      DJNZ R6,LOOP
+      LJMP final
+DELAY: MOV TMOD,#00010001B 
+       MOV TH0,#0F1H
+       MOV TL0,#089H 
+       SETB TR0 
+HERE: JNB TF0,HERE 
+      CLR TR0 
+      CLR TF0 
+      RET  
+      final: RET
+
+
+LOOPGA:
+MOV R3,#1H
+LOP: ACALL DELY
+      DJNZ R3,LOP
+      LJMP finale
+DELY: MOV TMOD,#00010001B  
+       MOV TH0,#0F2H
+       MOV TL0,#0FBH 
+       SETB TR0 
+HEE: JNB TF0,HEE 
+      CLR TR0 
+      CLR TF0 
+      RET  
+      finale: RET
+
+LOOPRE1:
+DELoY: MOV TMOD,#00010001B 
+       MOV TH1,#03CH
+       MOV TL1,#0B0H 
+       SETB TR1 
+HERoE:SETB P0.0
+ACALL LOOPRE
+CLR P0.0
+ACALL LOOPRE
+JNB TF1,HERoE 
+      CLR TR1 
+      CLR TF1
+      RET  
+	  
+LOOPGA1:
+DELYo: MOV TMOD,#00010001B 
+       MOV TH1,#03CH
+       MOV TL1,#0B0H 
+       SETB TR1 
+HoERE:SETB P0.0
+ACALL LOOPGA
+CLR P0.0
+ACALL LOOPGA
+JNB TF1,HoERE 
+      CLR TR1 
+      CLR TF1
+      RET  
+
+LOOPDEL:
+DELYde: MOV TMOD,#00010001B 
+       MOV TH1,#03CH
+       MOV TL1,#0B0H 
+       SETB TR1 
+HoEREde: JNB TF1,HoEREde
+      CLR TR1 
+      CLR TF1
+      RET  
+end

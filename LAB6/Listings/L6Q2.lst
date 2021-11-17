@@ -1,0 +1,163 @@
+A51 MACRO ASSEMBLER  L6Q2                                                                 03/15/2021 09:39:10 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\L6Q2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE L6Q2.asm SET(SMALL) DEBUG PRINT(.\Listings\L6Q2.lst) OBJECT(.\Objects\L
+                      6Q2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 000H
+0000 020100            2     LJMP MAIN
+                       3     ;ORG 001BH
+                       4     ;ljmp Handler
+                       5     ;ORG 0050H
+                       6     ;Handler: CLR TR1
+                       7     ;INC R2
+                       8     ;       MOV TH1,#03CH
+                       9     ;       MOV TL1,#0B0H 
+                      10     ;SetB EA ; (or SetB IE.7) to enable interrupts
+                      11     ;SetB ET1 ; (or SetB IE.1) to enable interrupts from T0
+                      12     ;SETB TR1
+                      13     ;RETI
+                      14     
+0100                  15     ORG 100H
+0100                  16     MAIN:
+0100 7928             17     MOV R1, #28H
+0102 D294             18     SETB P1.4
+                      19     
+0104                  20     ONTIME: 
+0104 3151             21     ACALL LOOPRE1
+0106 3151             22     ACALL LOOPRE1
+0108 D9FA             23     DJNZ R1, ONTIME
+                      24     
+010A 7928             25     MOV R1, #28H
+010C C294             26     CLR P1.4
+                      27     
+010E                  28     OFFTIME: 
+010E 316C             29     ACALL LOOPGA1
+0110 316C             30     ACALL LOOPGA1
+0112 D9FA             31     DJNZ R1, OFFTIME
+                      32     
+0114 020100           33     LJMP MAIN
+                      34     
+                      35     
+0117                  36     LOOPRE:
+0117 7E01             37     MOV R6,#1H
+0119 3120             38     LOOP: ACALL DELAY
+011B DEFC             39           DJNZ R6,LOOP
+011D 020133           40           LJMP final
+0120 758911           41     DELAY: MOV TMOD,#00010001B 
+0123 758CF1           42            MOV TH0,#0F1H
+0126 758A89           43            MOV TL0,#089H 
+0129 D28C             44            SETB TR0 
+012B 308DFD           45     HERE: JNB TF0,HERE 
+012E C28C             46           CLR TR0 
+0130 C28D             47           CLR TF0 
+0132 22               48           RET  
+0133 22               49           final: RET
+                      50     
+                      51     
+0134                  52     LOOPGA:
+0134 7B01             53     MOV R3,#1H
+0136 313D             54     LOP: ACALL DELY
+0138 DBFC             55           DJNZ R3,LOP
+013A 020150           56           LJMP finale
+013D 758911           57     DELY: MOV TMOD,#00010001B  
+A51 MACRO ASSEMBLER  L6Q2                                                                 03/15/2021 09:39:10 PAGE     2
+
+0140 758CF2           58            MOV TH0,#0F2H
+0143 758AFB           59            MOV TL0,#0FBH 
+0146 D28C             60            SETB TR0 
+0148 308DFD           61     HEE: JNB TF0,HEE 
+014B C28C             62           CLR TR0 
+014D C28D             63           CLR TF0 
+014F 22               64           RET  
+0150 22               65           finale: RET
+                      66     
+0151                  67     LOOPRE1:
+0151 758911           68     DELoY: MOV TMOD,#00010001B 
+0154 758D3C           69            MOV TH1,#03CH
+0157 758BB0           70            MOV TL1,#0B0H 
+015A D28E             71            SETB TR1 
+015C D280             72     HERoE:SETB P0.0
+015E 3117             73     ACALL LOOPRE
+0160 C280             74     CLR P0.0
+0162 3117             75     ACALL LOOPRE
+0164 308FF5           76     JNB TF1,HERoE 
+0167 C28E             77           CLR TR1 
+0169 C28F             78           CLR TF1
+016B 22               79           RET  
+                      80               
+016C                  81     LOOPGA1:
+016C 758911           82     DELYo: MOV TMOD,#00010001B 
+016F 758D3C           83            MOV TH1,#03CH
+0172 758BB0           84            MOV TL1,#0B0H 
+0175 D28E             85            SETB TR1 
+0177 D280             86     HoERE:SETB P0.0
+0179 3134             87     ACALL LOOPGA
+017B C280             88     CLR P0.0
+017D 3134             89     ACALL LOOPGA
+017F 308FF5           90     JNB TF1,HoERE 
+0182 C28E             91           CLR TR1 
+0184 C28F             92           CLR TF1
+0186 22               93           RET  
+                      94     
+0187                  95     LOOPDEL:
+0187 758911           96     DELYde: MOV TMOD,#00010001B 
+018A 758D3C           97            MOV TH1,#03CH
+018D 758BB0           98            MOV TL1,#0B0H 
+0190 D28E             99            SETB TR1 
+0192 308FFD          100     HoEREde: JNB TF1,HoEREde
+0195 C28E            101           CLR TR1 
+0197 C28F            102           CLR TF1
+0199 22              103           RET  
+                     104     end
+A51 MACRO ASSEMBLER  L6Q2                                                                 03/15/2021 09:39:10 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0120H   A   
+DELOY. . . . . . .  C ADDR   0151H   A   
+DELY . . . . . . .  C ADDR   013DH   A   
+DELYDE . . . . . .  C ADDR   0187H   A   
+DELYO. . . . . . .  C ADDR   016CH   A   
+FINAL. . . . . . .  C ADDR   0133H   A   
+FINALE . . . . . .  C ADDR   0150H   A   
+HEE. . . . . . . .  C ADDR   0148H   A   
+HERE . . . . . . .  C ADDR   012BH   A   
+HEROE. . . . . . .  C ADDR   015CH   A   
+HOERE. . . . . . .  C ADDR   0177H   A   
+HOEREDE. . . . . .  C ADDR   0192H   A   
+LOOP . . . . . . .  C ADDR   0119H   A   
+LOOPDEL. . . . . .  C ADDR   0187H   A   
+LOOPGA . . . . . .  C ADDR   0134H   A   
+LOOPGA1. . . . . .  C ADDR   016CH   A   
+LOOPRE . . . . . .  C ADDR   0117H   A   
+LOOPRE1. . . . . .  C ADDR   0151H   A   
+LOP. . . . . . . .  C ADDR   0136H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+OFFTIME. . . . . .  C ADDR   010EH   A   
+ONTIME . . . . . .  C ADDR   0104H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

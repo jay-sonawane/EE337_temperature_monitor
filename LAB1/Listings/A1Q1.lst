@@ -1,0 +1,40 @@
+A51 MACRO ASSEMBLER  A1Q1                                                                 01/25/2021 16:24:25 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\A1Q1.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A1Q1.asm SET(SMALL) DEBUG PRINT(.\Listings\A1Q1.lst) OBJECT(.\Objects\A
+                      1Q1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H  
+0000 757030            2     MOV 70H, #30H
+0003 E570              3     MOV A, 70H
+0005 7908              4     MOV R1, #08H
+0007 7A00              5     MOV R2, #00H
+                       6     
+0009 13                7     LOOP: RRC A
+000A 5001              8     JNC checkpoint
+000C 0A                9     INC R2
+000D D9FA             10     checkpoint: DJNZ R1, LOOP
+000F 8A71             11     MOV 71H, R2
+0011 80FE             12     HERE:SJMP HERE
+                      13     END
+A51 MACRO ASSEMBLER  A1Q1                                                                 01/25/2021 16:24:25 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CHECKPOINT . . . .  C ADDR   000DH   A   
+HERE . . . . . . .  C ADDR   0011H   A   
+LOOP . . . . . . .  C ADDR   0009H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

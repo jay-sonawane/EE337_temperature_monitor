@@ -1,0 +1,131 @@
+A51 MACRO ASSEMBLER  LED                                                                  03/15/2021 13:56:54 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\led.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE led.asm SET(SMALL) DEBUG PRINT(.\Listings\led.lst) OBJECT(.\Objects\led
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 020200            2     ljmp start
+                       3     
+0200                   4     org 200h
+                       5     
+0200                   6     start:
+0200 D2AF              7     setb EA
+0202 D2AB              8     setb ET1
+0204 C3                9     CLR C
+                      10     
+0205                  11     start1:
+0205 7D00             12     mov R5, #00H
+0207 758911           13     mov TMOD,#00010001B;   timer for 0.01s
+020A 758DB1           14     mov TH1,#0B1H
+020D 758BE0           15     mov TL1,#0E0H; to count 20000 cycles = 0.01s 
+0210 D28E             16     setb TR1
+                      17     
+0212 400C             18     JC secondone
+0214 5000             19     JNC firstone
+                      20     
+0216                  21     firstone:
+0216 D280             22     setb P0.0
+0218 512D             23     acall delay1
+021A C280             24     clr P0.0
+021C 512D             25     acall delay1
+021E 50F6             26     jnc firstone
+                      27     
+0220                  28     secondone:
+0220 D280             29     setb P0.0
+0222 5140             30     acall delay2
+0224 C280             31     clr P0.0
+0226 5140             32     acall delay2
+0228 40F6             33     jc secondone
+                      34     
+                      35     
+022A 020205           36     ljmp start1
+                      37     
+                      38     
+022D                  39     delay1: 
+022D 758911           40     mov TMOD,#00010001B;   timer for 1.85ms
+0230 758CF1           41     mov TH0,#0F1H
+0233 758A89           42     mov TL0,#89H; to count 3703 cycles                            
+0236 D28C             43     setb TR0                                                                                   
+                                
+0238                  44     final1: 
+0238 308DFD           45     jnb TF0,final1
+023B C28C             46     clr TR0 
+023D C28D             47     clr TF0 
+023F 22               48     ret
+                      49     
+                      50     
+0240                  51     delay2: 
+0240 758911           52     mov TMOD,#00010001B;   timer for 3.3ms/2
+0243 758CF2           53     mov TH0,#0F2H
+0246 758AFB           54     mov TL0,#0FBH; to count 3333 cycles                            
+0249 D28C             55     setb TR0                                                                                   
+                                        
+A51 MACRO ASSEMBLER  LED                                                                  03/15/2021 13:56:54 PAGE     2
+
+024B                  56     final2: 
+024B 308DFD           57     jnb TF0,final2
+024E C28C             58     clr TR0 
+0250 C28D             59     clr TF0 
+0252 22               60     ret
+                      61                       
+                      62     
+                      63     ;-----------
+                      64     
+001B                  65     org 001BH
+001B                  66             handler:
+001B C28E             67             clr TR1 
+001D 0D               68             inc R5
+001E 74C8             69             MOV A, #0C8H
+0020 9D               70             SUBB A, R5
+0021 7001             71             JNZ DONE1
+0023 B3               72             CPL C
+0024                  73             DONE1:
+0024 D2AF             74             setb EA
+0026 D2AB             75             setb ET1
+0028 758DB1           76         mov TH1,#0B1H
+002B 758BE0           77         mov TL1,#0E0H; to count 20000 cycles = 0.01s 
+002E D28E             78             setb TR1
+0030 32               79             reti
+                      80     ;-----------                            
+                      81                                     
+                      82     end
+A51 MACRO ASSEMBLER  LED                                                                  03/15/2021 13:56:54 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY1 . . . . . .  C ADDR   022DH   A   
+DELAY2 . . . . . .  C ADDR   0240H   A   
+DONE1. . . . . . .  C ADDR   0024H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+FINAL1 . . . . . .  C ADDR   0238H   A   
+FINAL2 . . . . . .  C ADDR   024BH   A   
+FIRSTONE . . . . .  C ADDR   0216H   A   
+HANDLER. . . . . .  C ADDR   001BH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+SECONDONE. . . . .  C ADDR   0220H   A   
+START. . . . . . .  C ADDR   0200H   A   
+START1 . . . . . .  C ADDR   0205H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

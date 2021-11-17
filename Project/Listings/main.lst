@@ -1,0 +1,210 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              04/11/2021 22:42:39 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          /**********************************************************
+   2          EE337: ADC IC MCP3008 interfacing with pt-51
+   3          (1) Complete spi_init() function from spi.h 
+   4          (2) Uncomment LM35 interfacing code from main function
+   5              Choose appropriate scaling factor for converting temperature 
+   6              sensor reading sampled using ADC such that it will be in 
+   7              degree Celsius and display it on the LCD)
+   8          ***********************************************************/
+   9          #include <at89c5131.h>
+  10          #include "lcd.h"                                        //Driver for interfacing lcd 
+  11          #include "mcp3008.h"                                    //Driver for interfacing ADC ic MCP3008
+  12          sbit Port = P0^7;
+  13          
+  14          void print_temp1(unsigned int y);
+  15          void print_temp2(unsigned int y);
+  16          void print_temp3(unsigned int y);
+  17          void print_alert();
+  18          
+  19          unsigned int avg;
+  20          char adc_ip_data_ascii[6]={0,0,0,0,0,'\0'};             //string array for saving ascii of input sample
+  21          code unsigned char display_msg1[]="Volt.: ";            //Display msg on 1st line of lcd
+  22          code unsigned char display_msg2[]=" mV";                //Display msg on 2nd line of lcd
+  23          unsigned char display_msg3[]={0,0,'.',0,' ','\0'};//"xxx °C", Display msg on 2nd line of lcd
+  24          code unsigned char display_msg4[]="Avg: ";            //Display msg on 2nd line of lcd
+  25          code unsigned char display_msg5[]="ALERT!          ";           //Display msg on 2nd line of lcd
+  26          
+  27          void print_alert()
+  28          {
+  29   1          lcd_cmd(0x80);                                      //Move cursor to 2nd line of LCD
+  30   1          lcd_write_string(display_msg5);
+  31   1      }
+  32          
+  33          void print_average(float Av)
+  34          {
+  35   1          float temperature;
+  36   1          temperature = (Av*0.32258);                               //NOTE: LM35 O/P: 10mV/°C, Refer to LM35 datasheet for more
+             - information
+  37   1          avg = (unsigned int) (temperature*10.0);              //Convert float value to unsigned int 
+  38   1        
+  39   1          int_to_string(avg,adc_ip_data_ascii);                 //Converting integer to string of ascii
+  40   1          lcd_cmd(0xC0);                                      //Move cursor to 2nd line of LCD
+  41   1          display_msg3[0] = adc_ip_data_ascii[2];
+  42   1          display_msg3[1] = adc_ip_data_ascii[3];
+  43   1          display_msg3[3] = adc_ip_data_ascii[4];
+  44   1          
+  45   1          lcd_write_string(display_msg4);
+  46   1       
+  47   1          lcd_write_string(display_msg3);
+  48   1      }
+  49            
+  50          
+  51          void print_temp1(unsigned int y)
+  52          {
+  53   1          float temperature;
+C51 COMPILER V9.60.0.0   MAIN                                                              04/11/2021 22:42:39 PAGE 2   
+
+  54   1          temperature = (y*0.32258);                              //NOTE: LM35 O/P: 10mV/°C, Refer to LM35 datasheet for more 
+             -information
+  55   1          y = (unsigned int) (temperature*10.0);              //Convert float value to unsigned int 
+  56   1                                                              //Multiply with 10 to retain 0.1 deg C as a least count of temp
+  57   1          int_to_string(y,adc_ip_data_ascii);                 //Converting integer to string of ascii
+  58   1          lcd_cmd(0x80);                                      //Move cursor to 2nd line of LCD
+  59   1          display_msg3[0] = adc_ip_data_ascii[2];
+  60   1          display_msg3[1] = adc_ip_data_ascii[3];
+  61   1          display_msg3[3] = adc_ip_data_ascii[4];
+  62   1                           
+  63   1          lcd_write_string(display_msg3);
+  64   1      }
+  65          void print_temp2(unsigned int y)
+  66          {
+  67   1          float temperature;
+  68   1          temperature = (y*0.32258);                              //NOTE: LM35 O/P: 10mV/°C, Refer to LM35 datasheet for more 
+             -information
+  69   1          y = (unsigned int) (temperature*10.0);              //Convert float value to unsigned int 
+  70   1                                                              //Multiply with 10 to retain 0.1 deg C as a least count of temp
+  71   1          int_to_string(y,adc_ip_data_ascii);                 //Converting integer to string of ascii
+  72   1          lcd_cmd(0x85);                                      //Move cursor to 2nd line of LCD
+  73   1          display_msg3[0] = adc_ip_data_ascii[2];
+  74   1          display_msg3[1] = adc_ip_data_ascii[3];
+  75   1          display_msg3[3] = adc_ip_data_ascii[4];
+  76   1                           
+  77   1          lcd_write_string(display_msg3);
+  78   1      }
+  79          void print_temp3(unsigned int y)
+  80          {
+  81   1          float temperature;
+  82   1          temperature = (y*0.32258);                              //NOTE: LM35 O/P: 10mV/°C, Refer to LM35 datasheet for more 
+             -information
+  83   1          y = (unsigned int) (temperature*10.0);              //Convert float value to unsigned int 
+  84   1                                                              //Multiply with 10 to retain 0.1 deg C as a least count of temp
+  85   1          int_to_string(y,adc_ip_data_ascii);                 //Converting integer to string of ascii
+  86   1          lcd_cmd(0x8A);                                      //Move cursor to 2nd line of LCD
+  87   1          display_msg3[0] = adc_ip_data_ascii[2];
+  88   1          display_msg3[1] = adc_ip_data_ascii[3];
+  89   1          display_msg3[3] = adc_ip_data_ascii[4];
+  90   1                           
+  91   1          lcd_write_string(display_msg3);
+  92   1      }
+  93          
+  94          
+  95          void main(void)
+  96          { 
+  97   1        int m,n,i=0;
+  98   1        unsigned int adc_data=0;
+  99   1        unsigned int x[10];
+ 100   1        float average=0.0;  
+ 101   1        float sum=0.0;
+ 102   1        Port=0;
+ 103   1        
+ 104   1        spi_init();                                         
+ 105   1        adc_init();
+ 106   1        lcd_init();
+ 107   1      
+ 108   1        for(m=0; m<10; m++)
+ 109   1        {
+ 110   2          x[m]=adc(7);    //Read analog value from 7th channel of ADC Ic MCP3008
+ 111   2          msdelay(1);
+ 112   2          sum=sum+x[m];   
+C51 COMPILER V9.60.0.0   MAIN                                                              04/11/2021 22:42:39 PAGE 3   
+
+ 113   2        }                                       
+ 114   1      
+ 115   1          average=sum/10; 
+ 116   1          print_temp1(x[7]);
+ 117   1          print_temp2(x[8]);
+ 118   1          print_temp3(x[9]);
+ 119   1          print_average(average); 
+ 120   1          msdelay(1000);
+ 121   1        
+ 122   1        while(1)
+ 123   1        {   
+ 124   2          sum=0.0;
+ 125   2            for(n=0;n<9;n++)
+ 126   2              {
+ 127   3                x[n]=x[n+1];
+ 128   3                sum=sum+x[n]; 
+ 129   3              }   
+ 130   2          x[9]= adc(7); 
+ 131   2      
+ 132   2          if ((x[9]>(average+ 6))|(x[9]<(average-6)))
+ 133   2          { 
+ 134   3            print_alert();            
+ 135   3            TMOD=0X01;
+ 136   3      
+ 137   3            for(i=1; i<=2160;i++)
+ 138   3              {
+ 139   4                TH0= 0X0F1;
+ 140   4                TL0= 0X089;
+ 141   4                TR0=1;
+ 142   4                while(TF0==0)
+ 143   4                {
+ 144   5                  continue;
+ 145   5                }
+ 146   4                TR0=0;
+ 147   4                TF0=0;
+ 148   4                Port=!Port;
+ 149   4                
+ 150   4                if(i%540==0)
+ 151   4                {
+ 152   5                  sum=0.0;
+ 153   5                  for(n=0;n<9;n++)
+ 154   5                    {
+ 155   6                      x[n]=x[n+1];
+ 156   6                      sum=sum+x[n]; 
+ 157   6                    } 
+ 158   5                  x[9]= adc(7); 
+ 159   5                  sum=sum+x[9];
+ 160   5                  average=sum/10;   
+ 161   5                }
+ 162   4              }
+ 163   3          } 
+ 164   2          else if ((x[9]<(average+ 6)) && (x[9]>(average-6)))
+ 165   2          {     
+ 166   3            sum=sum+x[9];
+ 167   3            average=sum/10;
+ 168   3            print_temp1(x[7]);
+ 169   3            print_temp2(x[8]);
+ 170   3            print_temp3(x[9]);
+ 171   3            print_average(average);
+ 172   3      
+ 173   3            msdelay(1000);
+ 174   3          }   
+C51 COMPILER V9.60.0.0   MAIN                                                              04/11/2021 22:42:39 PAGE 4   
+
+ 175   2        }
+ 176   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1778    ----
+   CONSTANT SIZE    =     35    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     15      80
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

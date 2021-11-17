@@ -1,0 +1,88 @@
+A51 MACRO ASSEMBLER  A2Q2                                                                 02/01/2021 15:59:40 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\A2Q2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A2Q2.asm SET(SMALL) DEBUG PRINT(.\Listings\A2Q2.lst) OBJECT(.\Objects\A
+                      2Q2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 756004            2     MOV 60H, #04H
+0003 C2D5              3     CLR PSW.5
+0005 C3                4     CLR C
+0006 7841              5     MOV R0, #41H; ADDRESS BIT
+0008 7961              6     MOV R1, #61H; ADRESS BIT INPUT
+000A AA60              7     MOV R2, 60H
+000C AE60              8     MOV R6, 60H
+000E AF60              9     MOV R7, 60H
+0010 7D00             10     MOV R5, #0H
+0012 7C00             11     MOV R4, #0H
+0014 AB60             12     MOV R3, 60H
+0016                  13     loop2:
+0016 AE60             14     MOV R6, 60H
+0018 E7               15     loop1: MOV A, @R1
+0019 F6               16     MOV @R0, A
+001A 08               17     INC R0
+001B E9               18     MOV A, R1
+001C 2B               19     ADD A, R3
+001D F9               20     MOV R1, A
+001E 0C               21     INC R4
+001F DEF7             22     DJNZ R6, loop1
+0021 0D               23     INC R5
+0022 7961             24     MOV R1, #61H
+0024 7841             25     MOV R0, #41H
+0026 E9               26     MOV A, R1
+0027 2D               27     ADD A, R5
+0028 F9               28     MOV R1, A
+0029 E8               29     MOV A, R0
+002A 2C               30     ADD A, R4
+002B F8               31     MOV R0, A
+002C DFE8             32     DJNZ R7, loop2
+                      33     
+002E AB60             34     MOV R3, 60H
+0030 EA               35     looptotal: MOV A, R2
+0031 2560             36     ADD A, 60H
+0033 FA               37     MOV R2, A
+0034 DBFA             38     DJNZ R3, looptotal
+                      39     
+0036 7961             40     MOV R1, #61H
+0038 7841             41     MOV R0, #41H
+                      42     
+                      43     
+003A                  44     loopmain: 
+003A E6               45     MOV A, @R0
+003B 97               46     SUBB A, @R1
+003C 7009             47     JNZ LAB
+003E 09               48     INC R1
+003F 08               49     INC R0
+0040 DAF8             50     DJNZ R2, loopmain
+0042 D2D5             51     SETB PSW.5
+0044 020049           52     LJMP here
+                      53     
+0047 C2D5             54     LAB: CLR PSW.5
+                      55             
+0049 80FE             56     here: SJMP here
+                      57     END
+A51 MACRO ASSEMBLER  A2Q2                                                                 02/01/2021 15:59:40 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+HERE . . . . . . .  C ADDR   0049H   A   
+LAB. . . . . . . .  C ADDR   0047H   A   
+LOOP1. . . . . . .  C ADDR   0018H   A   
+LOOP2. . . . . . .  C ADDR   0016H   A   
+LOOPMAIN . . . . .  C ADDR   003AH   A   
+LOOPTOTAL. . . . .  C ADDR   0030H   A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

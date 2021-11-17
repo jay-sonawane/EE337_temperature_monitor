@@ -1,0 +1,126 @@
+A51 MACRO ASSEMBLER  Q2                                                                   02/08/2021 16:03:39 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\Q2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q2.asm SET(SMALL) DEBUG PRINT(.\Listings\Q2.lst) OBJECT(.\Objects\Q2.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 020100            2     LJMP MAIN
+0100                   3     ORG 100H
+                       4     
+0100                   5     MAIN:   
+                       6     
+0100                   7     HERE1: 
+0100 A290              8     MOV C, P1.0
+0102 5017              9     JNC elsepart
+0104 A291             10     MOV C, P1.1
+0106 5028             11     JNC elsepart2
+                      12     
+0108                  13     HERELARGE:
+                      14     
+0108 D294             15     SETB P1.4
+010A D296             16     SETB P1.6
+                      17     
+010C 314B             18     ACALL LOOP1S
+010E C294             19     CLR P1.4
+0110 314B             20     ACALL LOOP1S
+0112 C296             21     CLR P1.6
+0114 314B             22     ACALL LOOP1S
+0116 314B             23     ACALL LOOP1S
+                      24     
+0118 020108           25     LJMP HERELARGE
+                      26     
+011B                  27     elsepart:
+011B A291             28     MOV C, P1.1
+011D 5022             29     JNC NONE
+                      30     
+011F C294             31     CLR P1.4
+                      32     
+0121                  33     heresmall1:
+0121 D296             34     SETB P1.6
+0123 314B             35     ACALL LOOP1S
+0125 314B             36     ACALL LOOP1S
+0127 C296             37     CLR P1.6
+0129 314B             38     ACALL LOOP1S
+012B 314B             39     ACALL LOOP1S
+                      40     
+012D 020121           41     ljmp heresmall1
+                      42     
+0130                  43     elsepart2: 
+0130 C296             44     CLR P1.6
+                      45     
+0132                  46     heresmall2:
+                      47     
+0132 D294             48     SETB P1.4
+0134 314B             49     ACALL LOOP1S
+0136 C294             50     CLR P1.4
+0138 314B             51     ACALL LOOP1S
+013A 314B             52     ACALL LOOP1S
+013C 314B             53     ACALL LOOP1S
+                      54     
+013E 020132           55     LJMP heresmall2
+                      56     
+0141                  57     NONE:
+A51 MACRO ASSEMBLER  Q2                                                                   02/08/2021 16:03:39 PAGE     2
+
+0141                  58     herenone:
+                      59     
+0141 C294             60     CLR P1.4
+0143 C296             61     CLR P1.6
+                      62     
+0145 020141           63     LJMP herenone 
+0148 020100           64     LJMP HERE1
+                      65     
+014B 7E28             66     LOOP1S: MOV R6,#28H
+014D 3154             67     LOOP: ACALL DELAY
+014F DEFC             68           DJNZ R6,LOOP
+0151 020167           69           LJMP final
+0154 758901           70     DELAY: MOV TMOD,#00000001B 
+0157 758C3C           71            MOV TH0,#03CH
+015A 758AB0           72            MOV TL0,#0B0H 
+015D D28C             73            SETB TR0 
+015F 308DFD           74     HERE: JNB TF0,HERE 
+0162 C28C             75           CLR TR0 
+0164 C28D             76           CLR TF0 
+0166 22               77           RET  
+0167 22               78           final: RET 
+                      79     
+                      80     END
+A51 MACRO ASSEMBLER  Q2                                                                   02/08/2021 16:03:39 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0154H   A   
+ELSEPART . . . . .  C ADDR   011BH   A   
+ELSEPART2. . . . .  C ADDR   0130H   A   
+FINAL. . . . . . .  C ADDR   0167H   A   
+HERE . . . . . . .  C ADDR   015FH   A   
+HERE1. . . . . . .  C ADDR   0100H   A   
+HERELARGE. . . . .  C ADDR   0108H   A   
+HERENONE . . . . .  C ADDR   0141H   A   
+HERESMALL1 . . . .  C ADDR   0121H   A   
+HERESMALL2 . . . .  C ADDR   0132H   A   
+LOOP . . . . . . .  C ADDR   014DH   A   
+LOOP1S . . . . . .  C ADDR   014BH   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+NONE . . . . . . .  C ADDR   0141H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

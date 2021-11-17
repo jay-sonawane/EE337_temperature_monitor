@@ -1,0 +1,18 @@
+ORG 0H	
+MOV R1,#10H
+MOV 50H, #012H
+MOV A, 50H
+MOV B, #0AH        
+DIV AB           
+MOV R7, B  
+MOV R3, A
+MOV B, #0AH
+DIV AB
+MOV R6, B         
+MOV R5, A;   
+MOV A, R7
+LOOP: ADD A, R6
+checkpoint: DJNZ R1, LOOP
+MOV 53H, A
+MOV 52H, R5
+END

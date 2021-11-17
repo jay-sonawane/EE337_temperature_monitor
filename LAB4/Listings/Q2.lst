@@ -1,0 +1,87 @@
+A51 MACRO ASSEMBLER  Q2                                                                   02/14/2021 20:37:49 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE Q2.asm SET(SMALL) DEBUG PRINT(.\Listings\Q2.lst) OBJECT(.\Objects\Q2.ob
+                      j) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 020100            2     LJMP MAIN
+0100                   3     ORG 100H
+0100                   4     MAIN:
+0100                   5     blinkingLEDs:
+                       6     
+0100 75900F            7     MOV P1, #0FH
+0103 E590              8     MOV A, P1
+0105                   9     ADD A, #F0H 
+*** _________________________________^
+*** ERROR #A45 IN 9 (Q2.asm, LINE 9): UNDEFINED SYMBOL (PASS-2)
+0107 F590             10     MOV P1, A
+                      11     
+0109 7F05             12     MOV R7, #5H
+010B                  13     INITdelay:
+010B 311F             14     ACALL LOOP1S
+010D DFFC             15     DJNZ R7, INITdelay
+                      16     
+010F E590             17     MOV A,P1
+0111 540F             18     ANL A,#0FH
+                      19     
+0113                  20     LOOPblink:
+0113 60EB             21     JZ blinkingLEDs
+0115 75900F           22     MOV P1, #0FH
+0118 311F             23     ACALL LOOP1S
+011A 7590FF           24     MOV P1, #0FFH
+011D 311F             25     ACALL LOOP1S
+011F                  26     DJNZ A, LOOPblink
+*** ______________________________^
+*** ERROR #A40 IN 26 (Q2.asm, LINE 26): INVALID REGISTER
+                      27     
+011F                  28     LOOP1S:
+011F 7E28             29     MOV R6,#28H
+0121 3128             30     LOOP: ACALL DELAY
+0123 DEFC             31           DJNZ R6,LOOP
+0125 02013B           32           LJMP final
+0128 758901           33     DELAY: MOV TMOD,#001B 
+012B 758C3C           34            MOV TH0,#03CH
+012E 758AB0           35            MOV TL0,#0B0H 
+0131 D28C             36            SETB TR0 
+0133 308DFD           37     HERE: JNB TF0,HERE 
+0136 C28C             38           CLR TR0 
+0138 C28D             39           CLR TF0 
+013A 22               40           RET  
+013B 22               41           final: RET
+                      42               
+                      43     end
+A51 MACRO ASSEMBLER  Q2                                                                   02/14/2021 20:37:49 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BLINKINGLEDS . . .  C ADDR   0100H   A   
+DELAY. . . . . . .  C ADDR   0128H   A   
+F0H. . . . . . . .    ----   -----       
+FINAL. . . . . . .  C ADDR   013BH   A   
+HERE . . . . . . .  C ADDR   0133H   A   
+INITDELAY. . . . .  C ADDR   010BH   A   
+LOOP . . . . . . .  C ADDR   0121H   A   
+LOOP1S . . . . . .  C ADDR   011FH   A   
+LOOPBLINK. . . . .  C ADDR   0113H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 2 ERROR(S)

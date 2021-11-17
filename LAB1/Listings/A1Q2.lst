@@ -1,0 +1,116 @@
+A51 MACRO ASSEMBLER  A1Q2                                                                 01/25/2021 16:34:20 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\A1Q2.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE A1Q2.asm SET(SMALL) DEBUG PRINT(.\Listings\A1Q2.lst) OBJECT(.\Objects\A
+                      1Q2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H  
+0000 C3                2     CLR C
+0001 754081            3     MOV 40H, #81H
+                       4     
+                       5      
+0004 75417E            6     MOV 41H, #7EH
+                       7     
+                       8      
+0007 75427D            9     MOV 42H, #7DH
+                      10     
+                      11      
+000A 75437C           12     MOV 43H, #7CH
+                      13     
+                      14      
+000D 75447B           15     MOV 44H, #7BH
+                      16     
+                      17      
+0010 75457A           18     MOV 45H, #7AH
+                      19     
+                      20      
+0013 754679           21     MOV 46H, #79H
+                      22     
+                      23      
+0016 754778           24     MOV 47H, #78H
+                      25     
+                      26      
+0019 754877           27     MOV 48H, #77H
+                      28     
+                      29      
+001C 754976           30     MOV 49H, #76H
+                      31     
+                      32      
+001F 754A75           33     MOV 4AH, #75H
+                      34     
+                      35      
+0022 754B74           36     MOV 4BH, #74H
+                      37     
+                      38      
+0025 754C73           39     MOV 4CH, #73H
+                      40     
+                      41      
+0028 754D72           42     MOV 4DH, #72H
+                      43     
+                      44      
+002B 754E71           45     MOV 4EH, #71H
+                      46     
+                      47      
+002E 754F70           48     MOV 4FH, #70H
+                      49     
+                      50      
+0031 75506F           51     MOV 50H, #6FH
+                      52     
+                      53      
+0034 75516E           54     MOV 51H, #6EH
+                      55     
+                      56      
+0037 75526D           57     MOV 52H, #6DH
+A51 MACRO ASSEMBLER  A1Q2                                                                 01/25/2021 16:34:20 PAGE     2
+
+                      58     
+                      59      
+003A 75536C           60     MOV 53H, #6CH
+                      61     
+003D 7F00             62     MOV R7, #0H ; max value variable
+003F 7B00             63     MOV R3, #0H ; second max variable
+0041 7400             64     MOV A, #0H ; comparison variable
+0043 7940             65     MOV R1, #40H ; address location storing variable
+0045 7A14             66     MOV R2, #14H  ; counter for address
+0047 EF               67     LOOP: MOV A, R7; R7 and A are equal and equal to max 
+0048 97               68     SUBB A, @R1 ; if A> @R1, Carry 0 else 1
+0049 5007             69     JNC checkpoint ; jump if carry is 0 
+004B 8F03             70     MOV 03H, R7 ; store second max value in R3
+004D E7               71     MOV A, @R1 ; store max value in A
+004E FF               72     MOV R7, A ; store value of max in R7 again
+004F 020059           73     LJMP checkpoint2
+0052                  74     checkpoint:
+0052 EB               75     MOV A, R3 ;store second largest value in A for comparison
+0053 C3               76     CLR C
+0054 97               77     SUBB A, @R1 ; if R3> @R1, Carry 0 else 1
+0055 5002             78     JNC checkpoint2 ; jump if carry is 0
+0057 8703             79     MOV 03H, @R1 ; store second max value in R3
+0059 09               80     checkpoint2: INC R1
+005A DAEB             81     DJNZ R2, LOOP
+005C 8F70             82     MOV 70H, R7
+005E 8B71             83     MOV 71H, R3
+0060 80FE             84     HERE:SJMP HERE
+                      85     END
+                                     
+A51 MACRO ASSEMBLER  A1Q2                                                                 01/25/2021 16:34:20 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CHECKPOINT . . . .  C ADDR   0052H   A   
+CHECKPOINT2. . . .  C ADDR   0059H   A   
+HERE . . . . . . .  C ADDR   0060H   A   
+LOOP . . . . . . .  C ADDR   0047H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

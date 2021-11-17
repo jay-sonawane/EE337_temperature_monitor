@@ -1,0 +1,113 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              03/21/2021 14:39:01 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE UART_files\main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Li
+                    -stings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          #include "lcd.h"    //Header file with LCD interfacing functions
+   3          #include "serial.c" //C file with UART interfacing functions
+   4          
+   5          sbit LED=P1^7;
+   6          
+   7          //Test function definitions
+   8          
+   9          /************************************************
+  10             lcd_test():
+  11            LCD test function that gets called when
+  12            '1' is received from UART
+  13            Prints "LCD Ok" on LCD. After 4 seconds
+  14            LCD is cleared
+  15          ************************************************/
+  16          void lcd_test(void)
+  17          {
+  18   1         lcd_cmd(0x80);
+  19   1         lcd_write_string("LCD Ok");
+  20   1         msdelay(2000);
+  21   1         lcd_cmd(0x01);
+  22   1      } 
+  23          
+  24          /************************************************
+  25             led_test():
+  26            LED test code. Update this function
+  27            to test LEDs on P1.7-P1.4 by blinking
+  28            them for a few times.
+  29          ************************************************/
+  30          void led_test(void)
+  31          {
+  32   1      // Write your testing code here.
+  33   1        P1=0xFF;
+  34   1        msdelay(3000);
+  35   1        P1=0X00;
+  36   1        msdelay(3000);
+  37   1        P1=0XFF;
+  38   1        msdelay(3000);
+  39   1        P1=0X00;
+  40   1        msdelay(3000);
+  41   1        P1=0XFF;
+  42   1      }
+  43          
+  44          
+  45          //Main function
+  46          void main(void)
+  47          {
+  48   1        unsigned char ch=0;
+  49   1        
+  50   1        //Initialize port P1 for output from P1.7-P1.4
+  51   1        P1 = 0x0F;
+  52   1        
+  53   1        //Call initialization functions
+  54   1        lcd_init();
+C51 COMPILER V9.60.0.0   MAIN                                                              03/21/2021 14:39:01 PAGE 2   
+
+  55   1        uart_init();
+  56   1        
+  57   1        //These strings will be printed in terminal software
+  58   1        transmit_string("************************\r\n");
+  59   1        transmit_string("******8051 Tests********\r\n");
+  60   1        transmit_string("************************\r\n");
+  61   1        transmit_string("Press 1 for LCD test\r\n");
+  62   1        transmit_string("Press 2 for LED test\r\n");
+  63   1        
+  64   1        while(1)
+  65   1        {
+  66   2            //Receive a character
+  67   2            ch = receive_char();
+  68   2          
+  69   2            //Decide which test function to run based on character sent
+  70   2            //Displays the string on the terminal software
+  71   2            switch(ch)
+  72   2            {
+  73   3              case '1':lcd_test();
+  74   3                       transmit_string("LCD tested\r\n");
+  75   3                       break;
+  76   3              
+  77   3              case '2':led_test();
+  78   3                       transmit_string("LED tested\r\n");
+  79   3                       break;
+  80   3                    
+  81   3              default:transmit_string("Incorrect test. Pass correct number\r\n");
+  82   3                       break;
+  83   3              
+  84   3            }
+  85   2            msdelay(100);
+  86   2        }
+  87   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    584    ----
+   CONSTANT SIZE    =    171    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      12
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
